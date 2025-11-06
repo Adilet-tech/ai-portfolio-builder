@@ -8,11 +8,8 @@ services:
       - "5432:5432"  
     volumes:
       - postgres_data:/var/lib/postgresql/data # Храним данные БД вне контейнера
-    environment:
-  
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=portfolio_db
+    env_file:
+      - ./.env
     restart: unless-stopped
 
   # 2. Сервис Backend (FastAPI)
@@ -24,7 +21,9 @@ services:
     ports:
       - "8000:8000"  
     volumes:
-      - ./backend:/app  
+      - ./backend:/app
+      - ./private_key.pem:/app/private_key.pem  
+      - ./public_key.pem:/app/public_key.pem  
                         
     env_file:
       - ./.env  

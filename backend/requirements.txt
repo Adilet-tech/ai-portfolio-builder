@@ -1,6 +1,7 @@
 # FastAPI
 fastapi
 uvicorn[standard]
+python-multipart
 
 # Postgres Driver
 psycopg2-binary
@@ -14,4 +15,5 @@ alembic
 
 # JWT (для аутентификации)
 python-jose[cryptography]
-passlib[bcrypt]
+passlib
+argon2-cffi
