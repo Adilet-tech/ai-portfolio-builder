@@ -1,0 +1,50 @@
+
+services:
+  # 1. Сервис базы данных Postgres
+  db:
+    image: postgres:15  
+    container_name: portfolio-db
+    ports:
+      - "5432:5432"  
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Храним данные БД вне контейнера
+    environment:
+  
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=portfolio_db
+    restart: unless-stopped
+
+  # 2. Сервис Backend (FastAPI)
+  backend:
+    container_name: portfolio-backend
+    build:
+      context: ./backend  
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"  
+    volumes:
+      - ./backend:/app  
+                        
+    env_file:
+      - ./.env  
+    depends_on:
+      - db  
+    restart: unless-stopped
+
+  # 3. Сервис Frontend (Next.js)
+  frontend:
+    container_name: portfolio-frontend
+    build:
+      context: ./frontend 
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"  
+    volumes:
+      - ./frontend:/app 
+      - /app/node_modules # Исключаем node_modules из монтирования (чтобы не перезаписывать локальные) 
+                        
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
