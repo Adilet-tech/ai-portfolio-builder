@@ -1,23 +1,23 @@
-# FastAPI
-fastapi
-uvicorn[standard]
-python-multipart
+# FastAPI и основные зависимости
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-multipart==0.0.6
 
-# Postgres Driver
-psycopg2-binary
+# База данных
+sqlmodel==0.0.14
+psycopg2-binary==2.9.9
+alembic==1.13.1
 
-# SQLAlchemy (для моделей)
-sqlalchemy
-sqlmodel
+# Безопасность
+passlib[argon2]==1.7.4
+python-jose[cryptography]==3.3.0
+cryptography==41.0.7
 
-# Alembic (для миграций)
-alembic
+# AI - Google Gemini
+google-generativeai==0.8.5
 
-# JWT (для аутентификации)
-python-jose[cryptography]
-passlib
-argon2-cffi
-
-google-generativeai
-
-pydantic[email]
+# Утилиты
+python-dotenv==1.0.0
+email-validator==2.1.0
