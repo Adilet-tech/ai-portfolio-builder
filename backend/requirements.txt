@@ -17,3 +17,7 @@ alembic
 python-jose[cryptography]
 passlib
 argon2-cffi
+
+google-generativeai
+
+pydantic[email]

@@ -4,6 +4,7 @@ from typing import Optional
 # Базовая схема для User
 class UserBase(SQLModel):
     email: str
+    username: str
 
 # Схема для создания User (Регистрация)
 class UserCreate(UserBase):

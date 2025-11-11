@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from .db import create_db_and_tables 
 from app.api import auth as auth_router
 from app.api import users as users_router
+from app.api import portfolio
 
 
 @asynccontextmanager
@@ -15,6 +16,8 @@ app = FastAPI(
     title="AI Portfolio Builder API",
     lifespan=lifespan 
 )
+
+app.include_router(portfolio.router)
 
 app.include_router(
     auth_router.router, 
