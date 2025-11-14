@@ -1,9 +1,9 @@
 /**
- * TypeScript типы для всего приложения
+ * TypeScript типы для всего приложения (на основе SQLModel/FastAPI схем)
  */
 
 // ============================================
-// AUTH TYPES
+// AUTH & USER TYPES
 // ============================================
 
 export interface User {
@@ -31,11 +31,11 @@ export interface RegisterData {
 
 export interface AuthResponse {
   access_token: string;
-  token_type: string;
+  token_type: string; // Используем string, как определено в вашем коде
 }
 
 // ============================================
-// PORTFOLIO TYPES
+// PORTFOLIO MODELS
 // ============================================
 
 export interface Project {
@@ -52,29 +52,6 @@ export interface GeneratedProject extends Project {
 
 export interface SkillsStructure {
   [category: string]: string[];
-}
-
-export interface Portfolio {
-  id: number;
-  user_id: number;
-  about_me?: string;
-  headline?: string;
-  skills_structured?: SkillsStructure;
-  projects?: GeneratedProject[];
-  work_experience?: WorkExperience[];
-  education?: Education[];
-  contact_info?: ContactInfo;
-  template_id?: string;
-  theme?: string;
-  color_scheme?: ColorScheme;
-  is_published: boolean;
-  slug?: string;
-  views_count: number;
-  created_at: string;
-  updated_at: string;
-  published_at?: string;
-  meta_title?: string;
-  meta_description?: string;
 }
 
 export interface WorkExperience {
@@ -112,8 +89,31 @@ export interface ColorScheme {
   text?: string;
 }
 
+export interface Portfolio {
+  id: number;
+  user_id: number;
+  about_me?: string;
+  headline?: string;
+  skills_structured?: SkillsStructure;
+  projects?: GeneratedProject[];
+  work_experience?: WorkExperience[];
+  education?: Education[];
+  contact_info?: ContactInfo;
+  template_id?: string;
+  theme?: string;
+  color_scheme?: ColorScheme;
+  is_published: boolean; // ⭐️ Используется для тогла публикации
+  slug?: string;
+  views_count: number;
+  created_at: string;
+  updated_at: string;
+  published_at?: string;
+  meta_title?: string;
+  meta_description?: string;
+}
+
 // ============================================
-// AI GENERATION TYPES
+// AI GENERATION PAYLOADS
 // ============================================
 
 export interface GenerateAboutRequest {
@@ -137,6 +137,10 @@ export interface GenerateFullPortfolioRequest {
   projects: Project[];
 }
 
+// ============================================
+// API RESPONSES (ОТВЕТЫ)
+// ============================================
+
 export interface GenerationResponse {
   success: boolean;
   content?: string;
@@ -155,8 +159,29 @@ export interface FullPortfolioResponse {
   };
 }
 
+/**
+ * ⭐️ ОТВЕТ НА PUT /me/publish (Тогл публикации)
+ */
+export interface PublishResponse {
+  success: boolean;
+  is_published: boolean; // Ключевое поле для обновления UI
+  message: string;
+}
+
+/**
+ * ⭐️ ОТВЕТ НА GET /{id}/public (Публичный просмотр)
+ */
+export interface PublicPortfolioResponse {
+  portfolio: Portfolio; // Полная модель портфолио
+  user: {
+    id: number;
+    email: string;
+    username: string;
+  };
+}
+
 // ============================================
-// API TYPES
+// ОСТАЛЬНЫЕ TYPES
 // ============================================
 
 export interface ApiError {
@@ -169,10 +194,6 @@ export interface RateLimitHeaders {
   "x-ratelimit-limit-hour": string;
   "x-ratelimit-remaining-hour": string;
 }
-
-// ============================================
-// FORM TYPES
-// ============================================
 
 export interface ProjectFormData {
   name: string;
@@ -189,10 +210,6 @@ export interface PortfolioFormData {
   industry: string;
   projects: ProjectFormData[];
 }
-
-// ============================================
-// UI STATE TYPES
-// ============================================
 
 export type LoadingState = "idle" | "loading" | "success" | "error";
 

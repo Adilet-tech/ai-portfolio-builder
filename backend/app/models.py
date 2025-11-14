@@ -80,7 +80,7 @@ class Portfolio(SQLModel, table=True):
     )
 
     # Статус публикации
-    is_published: bool = Field(default=False)
+    is_published: bool = Field(default=False, nullable=False)
     slug: Optional[str] = Field(
         default=None,
         unique=True,
