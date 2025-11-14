@@ -20,13 +20,9 @@ except ImportError:
     print("⚠️  google-generativeai не установлен")
     print("Установите: pip install google-generativeai")
 
-# --- ИСПРАВЛЕНИЯ: ---
-# 1. Ищем ПРАВИЛЬНЫЙ ключ
+
 API_KEY = os.getenv("GOOGLE_API_KEY")
-# 2. Читаем имя модели из .env, как в ai_service.py
-#    (По умолчанию 'models/gemini-2.5-flash', если в .env не найдено)
 MODEL_NAME = os.getenv("GOOGLE_MODEL_NAME", "models/gemini-2.5-flash")
-# --- КОНЕЦ ИСПРАВЛЕНИЙ ---
 
 
 async def test_basic_generation():
@@ -40,13 +36,11 @@ async def test_basic_generation():
         return False
 
     print(f"✅ API Key найден: {API_KEY[:4]}...")
-    print(f"✅ Модель: {MODEL_NAME}")  # <--- Используем переменную MODEL_NAME
+    print(f"✅ Модель: {MODEL_NAME}")
 
     try:
         genai.configure(api_key=API_KEY)
-        model = genai.GenerativeModel(
-            MODEL_NAME
-        )  # <--- Используем переменную MODEL_NAME
+        model = genai.GenerativeModel(MODEL_NAME)
 
         prompt = "Напиши короткое приветствие для портфолио веб-разработчика (максимум 2 предложения)"
         print(f"\n📝 Промпт: {prompt}")
@@ -71,9 +65,7 @@ async def test_about_section_generation():
 
     try:
         genai.configure(api_key=API_KEY)
-        model = genai.GenerativeModel(
-            MODEL_NAME
-        )  # <--- Используем переменную MODEL_NAME
+        model = genai.GenerativeModel(MODEL_NAME)
 
         test_data = {
             "name": "Адилет",
@@ -119,9 +111,7 @@ async def test_json_generation():
 
     try:
         genai.configure(api_key=API_KEY)
-        model = genai.GenerativeModel(
-            MODEL_NAME
-        )  # <--- Используем переменную MODEL_NAME
+        model = genai.GenerativeModel(MODEL_NAME)
 
         skills = ["React", "Python", "FastAPI", "PostgreSQL", "Docker", "Figma", "Git"]
         skills_text = ", ".join(skills)
@@ -134,7 +124,6 @@ async def test_json_generation():
         print(f"\n📝 Навыки для группировки: {skills_text}")
         print("\n⏳ Генерация...")
 
-        # Новые модели Gemini отлично работают с JSON-режимом
         generation_config = genai.types.GenerationConfig(
             response_mime_type="application/json"
         )
@@ -170,9 +159,7 @@ async def test_rate_limits():
 
     try:
         genai.configure(api_key=API_KEY)
-        model = genai.GenerativeModel(
-            MODEL_NAME
-        )  # <--- Используем переменную MODEL_NAME
+        model = genai.GenerativeModel(MODEL_NAME)
 
         print("\n⏳ Выполнение 5 запросов подряд...")
 
@@ -208,7 +195,6 @@ async def main():
         print("\n❌ Установите библиотеку: pip install google-generativeai")
         return
 
-    # Тест 1 должен выполниться первым и проверить API-ключ
     test1_passed = await test_basic_generation()
     if not test1_passed:
         print(
@@ -216,19 +202,17 @@ async def main():
         )
         results = [False, False, False, False]
     else:
-        # Запускаем остальные тесты параллельно
         results = [test1_passed]
         other_tests = await asyncio.gather(
             test_about_section_generation(), test_json_generation(), test_rate_limits()
         )
         results.extend(other_tests)
 
-    # Итоги
     print("\n" + "=" * 50)
     print("📊 ИТОГИ ТЕСТИРОВАНИЯ")
     print("=" * 50)
 
-    passed = sum(1 for r in results if r)  # Считаем True
+    passed = sum(1 for r in results if r)
     total = len(results)
 
     print(f"\n✅ Пройдено: {passed}/{total}")
