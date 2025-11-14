@@ -1,118 +1,416 @@
-## 💼 AI Portfolio Builder (Foliomind)
+# 🚀 AI Portfolio Builder
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-green)](https://opensource.org/licenses/MIT)
-[![Python Version](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100.0-lightgrey)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-18.2.0-blue?logo=react)](https://reactjs.org/)
-[![Docker](https://img.shields.io/badge/Docker-24.0.6-blue?logo=docker)](https://www.docker.com/)
+<div align="center">
 
-A full-stack web application designed to empower users to create professional personal portfolio websites using **Artificial Intelligence**. Users input their core skills, experience, and projects, and the AI automatically generates structured content, design recommendations, and page architecture.
+![AI Portfolio Builder](https://img.shields.io/badge/AI-Portfolio%20Builder-purple?style=for-the-badge&logo=sparkles)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?style=for-the-badge&logo=fastapi)
+![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-316192?style=for-the-badge&logo=postgresql)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)
 
----
+**Создавайте профессиональные портфолио за минуты с помощью AI** ✨
 
-## ✨ Key Features
+[Демо](#-демо) • [Возможности](#-возможности) • [Быстрый старт](#-быстрый-старт) • [Документация](#-документация)
 
-* **🔐 Secure Authentication** ✅
-    * Robust registration and login implemented with **RS256** (asymmetric keys) and **Argon2** (password hashing). Includes support for Refresh Tokens.
-* **🤖 AI Content Generation** ✅
-    * Automatic drafting of "About Me," "Skills," and "Project Description" sections using the **Google Gemini API**.
-* **🗃️ Database & Migrations** ✅
-    * **PostgreSQL** configured with **Alembic** for reliable schema migration management.
-* **🛡️ API Protection** ✅
-    * Protected API routes secured via `get_current_user` dependencies and an integrated **Rate Limiter** to prevent abuse.
-* **🎨 Template Selection** (In Development)
-* **📥 Code Export** (In Development)
+</div>
 
 ---
 
-## 🧩 Tech Stack
+## 📖 О проекте
 
-| Component | Technologies |
-| :--- | :--- |
-| **Backend** | **FastAPI** (Python) |
-| **Frontend** | **React** (Next.js) |
-| **Styling** | **TailwindCSS** + shadcn/ui |
-| **Database** | **PostgreSQL** + Alembic |
-| **AI Integration** | **Google Gemini** (`models/gemini-2.5-flash`) |
-| **Security** | **JWT (RS256)** + Argon2 |
-| **Containerization** | **Docker** & Docker Compose |
+AI Portfolio Builder — это современное веб-приложение, которое использует искусственный интеллект (Google Gemini) для автоматической генерации профессиональных портфолио.
 
----
+Просто укажите свои навыки, опыт и проекты — AI создаст красивое описание, структурирует информацию и предложит лучший способ презентации.
 
-## 🚀 Getting Started (Local Setup)
+### 🎯 Для кого?
 
-### 1️⃣ Clone the Repository
+- 👨‍💻 **Разработчики** — создайте портфолио проектов
+- 🎨 **Дизайнеры** — покажите свои работы
+- 📝 **Писатели** — продемонстрируйте статьи
+- 🎓 **Студенты** — подготовьтесь к поиску работы
+- 💼 **Фрилансеры** — привлекайте клиентов
 
-# Clone the repository from GitHub
-git clone [https://github.com/Adilet-tech/ai-portfolio-builder.git](https://github.com/Adilet-tech/ai-portfolio-builder.git)
+## ✨ Возможности
 
-# Navigate into the project directory
+### 🤖 AI-генерация контента
+
+- **Раздел "Обо мне"** — профессиональное описание на основе ваших данных
+- **Описания проектов** — привлекательные тексты о ваших работах
+- **Структурирование навыков** — автоматическая группировка по категориям
+- **Headline** — цепляющий заголовок профиля
+
+### 🔐 Безопасность
+
+- **JWT аутентификация** с RS256 (асимметричное шифрование)
+- **Argon2** для хеширования паролей
+- **Rate limiting** — защита от спама
+- **Валидация данных** с помощью Pydantic
+
+### 🎨 Frontend
+
+- **Modern UI** — градиенты, анимации, адаптивный дизайн
+- **Real-time preview** — мгновенный предпросмотр
+- **Intuitive UX** — понятный интерфейс
+- **Dark mode ready** — поддержка темной темы (скоро)
+
+### 🔧 Backend
+
+- **FastAPI** — быстрый и современный Python фреймворк
+- **PostgreSQL** — надежная реляционная БД
+- **SQLModel** — удобная работа с моделями
+- **Alembic** — система миграций
+- **Docker** — легкий деплой
+
+## 🚀 Быстрый старт
+
+### Предварительные требования
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (включает Docker Compose)
+- [Git](https://git-scm.com/downloads)
+- OpenSSL (обычно предустановлен)
+
+### Автоматическая установка (рекомендуется)
+
+```bash
+# 1. Клонируйте репозиторий
+git clone https://github.com/Adilet-tech/ai-portfolio-builder.git
 cd ai-portfolio-builder
-2️⃣ Configure Environment Variables
-Action: Create a .env file in the project root based on the provided .env.example:
 
-# Example content for the .env file:
+# 2. Сделайте скрипт исполняемым
+chmod +x start.sh
 
-# Database Settings
-POSTGRES_USER=adikus
-POSTGRES_PASSWORD=adikus
-POSTGRES_DB=portfolio_db
-DATABASE_URL=postgresql://adikus:adikus@db:5432/portfolio_db
+# 3. Запустите!
+./start.sh
+```
 
-# Google Gemini API
-GOOGLE_API_KEY=YOUR_GOOGLE_API_KEY
-GOOGLE_MODEL_NAME=models/gemini-2.5-flash
+Скрипт автоматически:
 
-# Token Lifespan
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-REFRESH_TOKEN_EXPIRE_DAYS=7
+- ✅ Проверит зависимости
+- ✅ Создаст .env из шаблона
+- ✅ Сгенерирует RSA ключи
+- ✅ Запустит Docker контейнеры
+- ✅ Создаст таблицы БД
+- ✅ Откроет приложение в браузере
 
-# App Settings
-ENVIRONMENT=development
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001
-LOG_LEVEL=DEBUG
+### Ручная установка
 
-3️⃣ Generate Security Keys (RS256)
-Action: Generate keys for JWT authentication.
+<details>
+<summary>Показать шаги ручной установки</summary>
 
-# Generate a 2048-bit RSA private key
+#### 1. Клонирование
+
+```bash
+git clone https://github.com/Adilet-tech/ai-portfolio-builder.git
+cd ai-portfolio-builder
+```
+
+#### 2. Настройка окружения
+
+```bash
+# Создайте .env файл
+cp .env.example .env
+
+# Отредактируйте .env и добавьте GEMINI_API_KEY
+nano .env  # или vim, code, любой редактор
+```
+
+Получите API ключ: https://makersuite.google.com/app/apikey
+
+#### 3. Генерация RSA ключей
+
+```bash
 openssl genrsa -out private_key.pem 2048
-
-# Extract the public key from the private key
 openssl rsa -in private_key.pem -pubout -out public_key.pem
+```
 
-# Note: Add *.pem to your .gitignore file to prevent committing private keys.
+#### 4. Запуск Docker
 
-4️⃣ Run Docker Containers
-Action: Build images and start all services (db, backend, frontend).
+```bash
+# Сборка и запуск
+docker compose up --build -d
 
+# Проверка статуса
+docker compose ps
+```
+
+#### 5. Инициализация БД
+
+```bash
+# Создание миграций
+docker compose exec backend alembic revision --autogenerate -m "Initial tables"
+
+# Применение миграций
+docker compose exec backend alembic upgrade head
+```
+
+#### 6. Открытие приложения
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000/docs
+
+</details>
+
+## 🎮 Использование
+
+### 1. Регистрация
+
+1. Откройте http://localhost:3000
+2. Переключитесь на "Регистрация"
+3. Введите email, username, пароль
+4. Нажмите "Создать аккаунт"
+
+### 2. Вход
+
+1. Введите email и пароль
+2. Нажмите "Войти"
+
+### 3. Генерация портфолио
+
+1. Перейдите на вкладку "AI Генератор"
+2. Заполните форму:
+   - **Имя**: Ваше имя
+   - **Навыки**: Python, React, Docker (через запятую)
+   - **Опыт**: Количество лет
+   - **Индустрия**: Web Development
+3. Добавьте проекты (опционально)
+4. Нажмите "Сгенерировать портфолио"
+5. Подождите 10-15 секунд ⏳
+6. Готово! ✨
+
+### 4. Просмотр и публикация
+
+1. Вкладка "Предпросмотр" — посмотрите результат
+2. Вкладка "Настройки" — опубликуйте портфолио
+3. Поделитесь ссылкой!
+
+## 📂 Структура проекта
+
+```
+ai-portfolio-builder/
+├── backend/                    # FastAPI приложение
+│   ├── app/
+│   │   ├── api/               # API роутеры
+│   │   │   ├── auth.py        # Аутентификация
+│   │   │   ├── users.py       # Пользователи
+│   │   │   └── portfolio.py   # Портфолио + AI
+│   │   ├── ai_service.py      # Gemini AI интеграция
+│   │   ├── models.py          # SQLModel модели
+│   │   ├── schemas.py         # Pydantic схемы
+│   │   ├── security.py        # JWT + Argon2
+│   │   ├── dependencies.py    # FastAPI dependencies
+│   │   ├── rate_limiter.py    # Rate limiting
+│   │   ├── db.py             # Database setup
+│   │   └── main.py           # Главный файл
+│   ├── alembic/              # Миграции БД
+│   ├── Dockerfile
+│   └── requirements.txt
+│
+├── frontend/                  # Next.js приложение
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── page.js       # Главная страница
+│   │   │   ├── layout.js     # Layout
+│   │   │   └── globals.css   # Глобальные стили
+│   │   └── components/       # React компоненты
+│   ├── public/               # Статические файлы
+│   ├── Dockerfile
+│   ├── package.json
+│   └── next.config.js
+│
+├── docker-compose.yml        # Docker конфигурация
+├── .env                      # Переменные окружения
+├── .env.example             # Шаблон .env
+├── start.sh                 # Скрипт быстрого запуска
+├── private_key.pem          # RSA приватный ключ
+├── public_key.pem           # RSA публичный ключ
+└── README.md
+```
+
+## 🔌 API Endpoints
+
+### Аутентификация
+
+```http
+POST /api/v1/auth/register
+POST /api/v1/auth/token
+```
+
+### Пользователи
+
+```http
+GET /api/v1/users/me
+```
+
+### Портфолио
+
+```http
+POST /api/v1/portfolio/generate/about
+POST /api/v1/portfolio/generate/project
+POST /api/v1/portfolio/generate/skills-structure
+POST /api/v1/portfolio/generate/full
+GET  /api/v1/portfolio/me
+PUT  /api/v1/portfolio/me/publish
+GET  /api/v1/portfolio/{id}/public
+```
+
+Полная документация: http://localhost:8000/docs
+
+## 🛠️ Полезные команды
+
+### Docker
+
+```bash
+# Просмотр логов
+docker compose logs -f
+docker compose logs -f backend
+docker compose logs -f frontend
+
+# Перезапуск сервисов
+docker compose restart
+docker compose restart backend
+
+# Остановка
+docker compose down
+
+# Остановка с удалением volumes (очистка БД)
+docker compose down -v
+
+# Пересборка
 docker compose up --build
+```
 
-5️⃣ Set Up the Database (Alembic Migrations)
-Action: Open a new terminal (while Docker is running) and run the following commands to initialize the database schema.
+### База данных
 
-# 1. Generate the initial migration file
+```bash
+# Подключение к PostgreSQL
+docker compose exec db psql -U adikus -d portfolio_db
 
-docker compose exec backend alembic revision --autogen -m "Create all tables"
+# Создание миграции
+docker compose exec backend alembic revision --autogenerate -m "Description"
 
-# 2. Apply the migration to the database
+# Применение миграций
 docker compose exec backend alembic upgrade head
 
-# ⚠️ Troubleshooting: If you get NameError: name 'sqlmodel' is not defined, 
-# manually add 'import sqlmodel' at the top of the new migration file
-# and rerun the 'alembic upgrade head' command.
+# Откат миграции
+docker compose exec backend alembic downgrade -1
+```
 
-6️⃣ Access the Application
-Result: Application services are running and accessible.
+### Debugging
 
-# Frontend (Client App)
-http://localhost:3000
+```bash
+# Зайти в контейнер backend
+docker compose exec backend bash
 
-# Backend (API Documentation - Swagger/OpenAPI)
-http://localhost:8000/docs
+# Зайти в контейнер frontend
+docker compose exec frontend sh
 
+# Проверка переменных окружения
+docker compose exec backend env
 
-git push origin main
+# Запуск Python в контейнере
+docker compose exec backend python
+```
 
+## 🧪 Тестирование
 
-git push origin main
+### Через Swagger UI
+
+1. Откройте http://localhost:8000/docs
+2. Используйте интерактивную документацию
+3. Авторизуйтесь через кнопку "Authorize"
+
+### Через curl
+
+```bash
+# Регистрация
+curl -X POST "http://localhost:8000/api/v1/auth/register" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "username": "testuser",
+    "password": "testpass123"
+  }'
+
+# Получение токена
+curl -X POST "http://localhost:8000/api/v1/auth/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=test@example.com&password=testpass123"
+
+# Генерация контента (замените YOUR_TOKEN)
+curl -X POST "http://localhost:8000/api/v1/portfolio/generate/about" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -d '{
+    "name": "John Doe",
+    "skills": ["Python", "React"],
+    "experience_years": 3
+  }'
+```
+
+## 🚀 Деплой на продакшн
+
+### Railway.app (Рекомендуется)
+
+1. Зарегистрируйтесь на [railway.app](https://railway.app)
+2. Создайте новый проект
+3. Добавьте PostgreSQL сервис
+4. Подключите GitHub репозиторий
+5. Настройте переменные окружения
+6. Deploy!
+
+### Vercel + Railway
+
+- **Frontend** на Vercel (бесплатно)
+- **Backend + DB** на Railway
+
+### DigitalOcean / AWS
+
+Используйте Docker Compose на VPS
+
+## 🤝 Вклад в проект
+
+Contributions приветствуются!
+
+1. Fork проект
+2. Создайте feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit изменения (`git commit -m 'Add some AmazingFeature'`)
+4. Push в branch (`git push origin feature/AmazingFeature`)
+5. Откройте Pull Request
+
+## 📝 TODO / Roadmap
+
+- [ ] Выбор шаблонов дизайна
+- [ ] Экспорт портфолио в HTML/PDF
+- [ ] Кастомизация цветовой схемы
+- [ ] SEO оптимизация
+- [ ] Email уведомления
+- [ ] Интеграция с GitHub для автоимпорта проектов
+- [ ] Multilanguage support
+- [ ] Dark mode
+- [ ] Analytics dashboard
+
+## 📄 Лицензия
+
+MIT License - смотрите [LICENSE](LICENSE)
+
+## 👨‍💻 Автор
+
+**Adilet** - [@Adilet-tech](https://github.com/Adilet-tech)
+
+## 🙏 Благодарности
+
+- [FastAPI](https://fastapi.tiangolo.com/)
+- [Next.js](https://nextjs.org/)
+- [Google Gemini](https://ai.google.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+
+---
+
+<div align="center">
+
+**⭐ Если проект понравился, поставьте звезду! ⭐**
+
+Made with ❤️ ✨
+
+</div>

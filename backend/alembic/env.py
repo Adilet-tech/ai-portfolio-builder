@@ -7,6 +7,7 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlmodel import SQLModel
+import app.models
 
 from alembic import context
 
@@ -25,7 +26,7 @@ load_dotenv()
 
 # 2. Добавляем папку /app в путь Python, чтобы он мог найти 'app.models'
 # (Этот путь /app/alembic/env.py внутри контейнера)
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 # 3. Импортируем наши модели
 from app import models
@@ -39,6 +40,8 @@ target_metadata = SQLModel.metadata
 # чтобы Alembic знал, к какой БД подключаться
 config.set_main_option("sqlalchemy.url", os.getenv("DATABASE_URL"))
 # ... etc.
+
+target_metadata = SQLModel.metadata
 
 
 def run_migrations_offline() -> None:
@@ -80,9 +83,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

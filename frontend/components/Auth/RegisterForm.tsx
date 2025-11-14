@@ -1,6 +1,12 @@
+"use client";
+
 import React, { useState } from "react";
+// Импорт компонентов UI (shadcn/ui) и иконок
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CheckCircle } from "lucide-react";
+
+// Устанавливаем базовый URL API из переменной окружения
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -8,11 +14,24 @@ export default function RegisterForm() {
     password: "",
     confirmPassword: "",
   });
+
+  // 1. ИСПОЛЬЗУЕМ setError, который был объявлен вверху
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Обработчик изменения полей формы
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
   const validateForm = () => {
+    // Сброс предыдущих ошибок
+    setError("");
+
     if (!formData.email || !formData.password || !formData.confirmPassword) {
       setError("Все поля обязательны для заполнения");
       return false;
@@ -47,25 +66,36 @@ export default function RegisterForm() {
     setIsLoading(true);
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password,
-          }),
-        }
-      );
+      // ⭐️ 1. ГЕНЕРИРУЕМ USERNAME ИЗ EMAIL
+      const username = formData.email.split("@")[0];
+
+      // 2. ОТПРАВЛЯЕМ ЗАПРОС С ДОБАВЛЕННЫМ USERNAME
+      const response = await fetch(`${API_BASE_URL}/api/v1/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          username: username, // <--- ЭТО РЕШЕНИЕ
+        }),
+      });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.detail || "Пользователь с таким email уже существует"
-        );
+        let errorMessage = "Ошибка при регистрации.";
+        try {
+          const errorData = await response.json();
+          // Дополнительная проверка на уникальность username/email
+          if (Array.isArray(errorData.detail) && errorData.detail.length > 0) {
+            errorMessage = errorData.detail[0].msg;
+          } else if (typeof errorData.detail === "string") {
+            errorMessage = errorData.detail;
+          }
+        } catch (e) {
+          errorMessage = `Ошибка HTTP: ${response.status} ${response.statusText}`;
+        }
+        throw new Error(errorMessage);
       }
 
       setSuccess(true);
@@ -74,21 +104,24 @@ export default function RegisterForm() {
       setTimeout(() => {
         window.location.href = "/login";
       }, 2000);
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Произошла ошибка при регистрации"
-      );
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Неизвестная ошибка сети");
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       handleSubmit();
     }
   };
 
+  // --- УСПЕШНЫЙ ВИД ---
   if (success) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100 p-4">
@@ -110,6 +143,7 @@ export default function RegisterForm() {
     );
   }
 
+  // --- ФОРМА РЕГИСТРАЦИИ ---
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-pink-100 p-4">
       <div className="w-full max-w-md">
@@ -122,6 +156,7 @@ export default function RegisterForm() {
           </div>
 
           <div className="space-y-6">
+            {/* Поле для отображения ошибки */}
             {error && (
               <Alert variant="destructive">
                 <AlertDescription>{error}</AlertDescription>
@@ -141,9 +176,7 @@ export default function RegisterForm() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                 placeholder="your@email.com"
                 value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
+                onChange={handleChange}
                 onKeyPress={handleKeyPress}
               />
             </div>
@@ -161,9 +194,7 @@ export default function RegisterForm() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                 placeholder="Минимум 6 символов"
                 value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
+                onChange={handleChange}
                 onKeyPress={handleKeyPress}
               />
             </div>
@@ -181,9 +212,7 @@ export default function RegisterForm() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                 placeholder="Повторите пароль"
                 value={formData.confirmPassword}
-                onChange={(e) =>
-                  setFormData({ ...formData, confirmPassword: e.target.value })
-                }
+                onChange={handleChange}
                 onKeyPress={handleKeyPress}
               />
             </div>
