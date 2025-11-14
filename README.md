@@ -389,10 +389,6 @@ Contributions приветствуются!
 - [ ] Dark mode
 - [ ] Analytics dashboard
 
-## 📄 Лицензия
-
-MIT License - смотрите [LICENSE](LICENSE)
-
 ## 👨‍💻 Автор
 
 **Adilet** - [@Adilet-tech](https://github.com/Adilet-tech)
